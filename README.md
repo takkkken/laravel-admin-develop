@@ -107,5 +107,7 @@ Laravel-Admin用のコンフィグを設定
 	            'driver' => 'local',
 	            'root' => storage_path('app'),
 	        ],
+以下で画面を開きます  
+	http://[host-ip-address]/admin/staffs
   
   
