@@ -11,6 +11,10 @@ TortoiseGit等でWindowsの適当なディレクトリ上にGitクローンし�
 ```
 vagrant up && vagrant ssh
 ```
+Laravel  
+http://192.168.33.50  
+Laravel-Admin  
+http://192.168.33.50/admin  
 
 ## 必要なもの
 * Vagrant  
