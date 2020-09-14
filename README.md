@@ -23,6 +23,7 @@ https://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.htm
 ### マイグレーション作成
 workspace コンテナに入る
   
+	Host# cd /opt/app/Laradock
 	Host# docker-compose exec workspace bash
 	
 マイグレーションの殻を作成
