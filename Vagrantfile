@@ -5,7 +5,7 @@
 # config
 # ---------------------------------------------------------
 VM_BOX = "generic/debian9"
-GUEST_IP = "192.168.33.50"
+GUEST_IP = "192.168.33.60"
 HOST_APP_DIR = "./app"
 GUEST_APP_DIR = "/opt/app"
 GUEST_MEM = 4096 # 単位：MB
@@ -40,8 +40,6 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder HOST_APP_DIR, GUEST_APP_DIR, mount_options: ['dmode=777', 'fmode=777']
   # ディレクトリ共有　ホストがMac、LinuxでNFSマウントを希望する場合
   #config.vm.synced_folder HOST_APP_DIR, GUEST_APP_DIR, type: "nfs", mount_options: ['dmode=777', 'fmode=777']
-
-
 
 
   #初回起動時のみ実行（この中は\は\でエスケープすること）
@@ -108,18 +106,17 @@ EOF
     docker-compose up -d nginx postgres-postgis
 
     # laravel-Admin Install after pg migrating & seeding
-    docker-compose exec -T workspace sh -c "composer require encore/laravel-admin"
+    docker-compose exec -T workspace sh -c "composer require encore/laravel-admin:2.0.0-beta1"
     docker-compose exec -T workspace sh -c 'php artisan vendor:publish --provider="Encore\\Admin\\AdminServiceProvider"'
     docker-compose exec -T workspace sh -c "composer dump-autoload"
     docker-compose exec -T workspace sh -c "php artisan migrate:refresh --seed"
     docker-compose exec -T workspace sh -c "php artisan admin:install"
 
 	echo ""
-	echo "環境構築が完了しました！"
+	echo "Laravel開発環境の構築が完了しました！"
 	echo "Laravel：　http://#{GUEST_IP}"
 	echo "Laravel-Admin：　http://#{GUEST_IP}/admin"
 	echo "ログインユーザ / パスワード：　admin / admin"
-	echo "Laravel-Adminチュートリアル：　https://markdown.click/2ce42c35fd5cd8af4d620de87134490f/"
 
   EOT
 
@@ -131,6 +128,11 @@ EOF
     pwd
     docker-compose up --no-recreate -d nginx postgres-postgis
     docker-compose ps
+	echo ""
+	echo "Laravel開発環境を起動しました！"
+	echo "Laravel：　http://#{GUEST_IP}"
+	echo "Laravel-Admin：　http://#{GUEST_IP}/admin"
+	echo "ログインユーザ / パスワード：　admin / *****"
   EOT
 
 end
