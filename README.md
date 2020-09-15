@@ -5,10 +5,10 @@ Vagrantにより、Debian9をHostOSとしたLaraDockコンテナ群を生成し�
 
 
 ## 使用方法
-TortoiseGit等でWindowsの適当なディレクトリ上にGitクローンしたらコンソールより下記を実行します。  
+TortoiseGit等でWindowsの適当なディレクトリ上にGitクローンしたらコンソールより下記を実行します。もしくはExec.batをダブルクリックします。  
 ※実行前にVagrantfileの「APP_NAME = "sample_app"」でアプリ名を適宜変更して下さい。  
 ※ホストのIPも適宜変更してください。  
-※環境にもよりますがDebianのダウンロードで1時間、コンテナやComposerのビルドに１時間、合計2時間以上はゆうに掛かります。  
+※環境にもよりますがDebianのダウンロードで1時間、コンテナやComposerのビルドに１時間、合計2時間以上はゆうに掛かります。
 ```
 $ vagrant up
 ```
@@ -19,7 +19,7 @@ Laravel-Admin：　http://192.168.33.60/admin
 ログインユーザ / パスワード：　admin / admin(default)  
 
 ```
-上記の表示がなされ、長いビルドが全て完了したら下記でsshログインが可能となります。
+上記の表示がなされ、長いビルドが全て完了したら下記でsshログインが可能となります。Exec.batをダブルクリックした場合は自動でSSHログインします。
 ```
 $ vagrant ssh
 debian10# 
@@ -38,7 +38,7 @@ https://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.htm
 * TortoiseGit、テキストエディタ等
 
 ## トラブルシュート
-このようなマウントエラーになった場合、下記を実行する。  
+このようなマウントエラーになった場合、ホストとゲストのプラグインバージョンがズレてしまっている可能性があり、下記を実行することで改善する可能性があります。もしくはInstall_vbguest.batをダブルクリックします。  
 
     /sbin/mount.vboxsf: mounting failed with the error: No such device
 
