@@ -26,9 +26,9 @@ debian10#
 ```
 ## Welcomeページ
 Laravel  
-http://192.168.33.50  
+http://192.168.33.60  
 Laravel-Admin  
-http://192.168.33.50/admin  
+http://192.168.33.60/admin  
 
 ## 必要なもの
 * Vagrant  
