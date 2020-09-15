@@ -1,7 +1,7 @@
 # laravel-admin-develop  
 Vagrantにより、Debian9をHostOSとしたLaraDockコンテナ群を生成し、Laravel8.0、Laravel-Adminの空のプロジェクトを生成します。  
   
-実行すると、php7 + Laravel8 + Laravel-Admin1.8 + nginx + postgresql-postgis がインストールされます。
+実行すると、php7 + Laravel8 + Laravel-Admin2.0.0beta1 + nginx + postgresql-postgis がインストールされます。
 
 
 ## 使用方法
