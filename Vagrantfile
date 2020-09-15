@@ -111,12 +111,8 @@ EOF
     docker-compose exec -T workspace sh -c "composer dump-autoload"
     docker-compose exec -T workspace sh -c "php artisan migrate:refresh --seed"
     docker-compose exec -T workspace sh -c "php artisan admin:install"
-
 	echo ""
 	echo "Laravel開発環境の構築が完了しました！"
-	echo "Laravel：　http://#{GUEST_IP}"
-	echo "Laravel-Admin：　http://#{GUEST_IP}/admin"
-	echo "ログインユーザ / パスワード：　admin / admin"
 
   EOT
 
@@ -132,7 +128,7 @@ EOF
 	echo "Laravel開発環境を起動しました！"
 	echo "Laravel：　http://#{GUEST_IP}"
 	echo "Laravel-Admin：　http://#{GUEST_IP}/admin"
-	echo "ログインユーザ / パスワード：　admin / *****"
+	echo "ログインユーザ / パスワード：　admin / admin(default)"
   EOT
 
 end
