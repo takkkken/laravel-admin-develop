@@ -10,8 +10,21 @@ TortoiseGit等でWindowsの適当なディレクトリ上にGitクローンし�
 ※ホストのIPも適宜変更してください。  
 ※環境にもよりますがDebianのダウンロードで1時間、コンテナやComposerのビルドに１時間、合計2時間以上はゆうに掛かります。  
 ```
-vagrant up && vagrant ssh
+$ vagrant up
 ```
+```
+環境構築が完了しました！  
+Laravel：　http://192.168.33.50  
+Laravel-Admin：　http://192.168.33.50/admin  
+ログインユーザ / パスワード：　admin / admin  
+
+```
+上記の表示がなされ、長いビルドが全て完了したら下記でsshログインが可能となります。
+```
+$ vagrant ssh
+debian10# 
+```
+## Welcomeページ
 Laravel  
 http://192.168.33.50  
 Laravel-Admin  
@@ -24,21 +37,31 @@ https://www.vagrantup.com/downloads.html
 https://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html?ssSourceSiteId=otnjp
 * TortoiseGit、テキストエディタ等
 
-## Laravel-AdminのCRUD画面作成チュートリアル
-### マイグレーション作成
-workspace コンテナに入る
+## トラブルシュート
+このようなマウントエラーになった場合、下記を実行する。  
+
+    /sbin/mount.vboxsf: mounting failed with the error: No such device
+
+
+    $ vagrant plugin install vagrant-vbguest
+    $ vagrant up
   
+
+
+## チュートリアル
+### Laravel-AdminのCRUD画面作成  
+1. workspace コンテナに入る
+```
 	Host# cd /opt/app/Laradock
 	Host# docker-compose exec workspace bash
-	
-マイグレーションの殻を作成
-
+```
+1. マイグレーションの殻を作成
+```
     # php artisan make:migration create_staffs_table --create=staffs
-    
-　⇒　database\migrations\2020_09_14_071502_create_staffs_table.php　が生成される
+```    
+    実行すると、database\migrations\2020_09_14_071502_create_staffs_table.php　ファイルが生成される
 
-マイグレーションを編集し、スキーマを設定
-
+1. マイグレーションファイルのカラム定義を追加編集し、スキーマを設定
 ```
 	$table->increments('id');
 	$table->string('name');
@@ -48,28 +71,31 @@ workspace コンテナに入る
 	$table->boolean('active');
 	$table->integer('age');
 	$table->timestamps();
-
 ```
-マイグレーションの実行
+
+1. マイグレーションの実行
+```
 	# php artisan migrate
+```
 
-モデルの殻を作成
+1. モデルの殻を作成
+```
 	# php artisan make:model Staff
+```
+    実行すると、app\Models\Staff.php　ファイルが生成される
 
-　⇒　app\Models\Staff.php　が生成される
+1. モデルを編集し、protected $table = 'staffs';　を追加
 
-モデルを編集し、protected $table = 'staffs';　を追加
-
-コントローラの殻を作成
-
+1. コントローラの殻を作成
+```
     # php artisan admin:make StaffController --model='App\Models\Staff'
+```
+    実行すると、Admin/Controllers/StaffController.php　ファイルが生成される
 
-　⇒　Admin/Controllers/StaffController.php　が生成される
+1. コントローラを編集し、一覧画面とフォーム画面を構築する
 
-コントローラを編集し、一覧画面とフォーム画面を構築する
-
-* grid()メソッド内
-
+  * grid()メソッド内
+```
 	    $grid->id('ID')->sortable();
 	    $grid->column('name');
 	    $grid->picture('picture')->image();
@@ -82,9 +108,9 @@ workspace コンテナに入る
 	    $grid->column('age');
 	    $grid->created_at();
 	    $grid->updated_at();
-
-* form()メソッド内
-
+```
+  * form()メソッド内
+```
         $form->display('id', 'ID');
         $form->text('name');
         $form->textarea('description');
@@ -94,21 +120,22 @@ workspace コンテナに入る
         $form->slider('age')->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => 'years old']);
         $form->display('created_at', 'Created At');
         $form->display('updated_at', 'Updated At');
-
-ルーティング（admin/app/Admin/routes.php）を設定
-
+```
+  * ルーティング（admin/app/Admin/routes.php）を編集
+```
     $router->resource('staffs', StaffController::class);
-
-Laravel-Admin用のコンフィグを設定
-
-	config\filesystems.php
+```
+1. Laravel-Admin用のコンフィグを設定
+```
+	config\filesystems.php　を編集
 	    'disks' 内に下記を追加
 	
 	        'admin' => [
 	            'driver' => 'local',
 	            'root' => storage_path('app'),
 	        ],
-以下で画面を開きます  
+```
+1. 以下で画面を開きます  
 	http://[host-ip-address]/admin/staffs
   
   
