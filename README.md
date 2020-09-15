@@ -7,7 +7,7 @@ Vagrantにより、Debian9をHostOSとしたLaraDockコンテナ群を生成し�
 ## 使用方法
 TortoiseGit等でWindowsの適当なディレクトリ上にGitクローンしたらコンソールより下記を実行します。  
 ※実行前にVagrantfileの「APP_NAME = "sample_app"」でアプリ名を適宜変更して下さい。  
-※環境にもよりますが１時間位はゆうに掛かります。  
+※環境にもよりますがDebianのダウンロードで1時間、コンテナやComposerのビルドに１時間、合計2時間以上はゆうに掛かります。  
 ```
 vagrant up && vagrant ssh
 ```
