@@ -102,7 +102,7 @@ EOF
     # laradock側に移動
     cd ../laradock
 
-	# Recreate Container（これ重要）
+    # Recreate Container（これ重要）
     docker-compose up -d nginx postgres-postgis
 
     # laravel-Admin Install after pg migrating & seeding
@@ -111,8 +111,11 @@ EOF
     docker-compose exec -T workspace sh -c "composer dump-autoload"
     docker-compose exec -T workspace sh -c "php artisan migrate:refresh --seed"
     docker-compose exec -T workspace sh -c "php artisan admin:install"
-	echo ""
-	echo "Laravel開発環境の構築が完了しました！"
+
+    gpasswd -a vagrant docker
+
+    echo ""
+    echo "Laravel開発環境の構築が完了しました！"
 
   EOT
 
