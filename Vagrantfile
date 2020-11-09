@@ -74,6 +74,8 @@ Vagrant.configure(2) do |config|
     cd laradock
     cp env-example .env
 
+    sed -i -e "s/DATA_PATH_HOST=~\\/\\.laradock\\/data/DATA_PATH_HOST=\\/opt\\/app\\/data/" .env
+
     # Image & Container build 超絶長い1～2時間位
     docker-compose up -d nginx postgres-postgis
 	echo "★★★コンテナビルド完了"

@@ -22,7 +22,7 @@ Laravel-Admin：　http://192.168.33.60/admin
 上記の表示がなされ、長いビルドが全て完了したら下記でsshログインが可能となります。Exec.batをダブルクリックした場合は自動でSSHログインします。
 ```
 $ vagrant ssh
-debian10# 
+debian9# 
 ```
 ## Welcomeページ
 Laravel  
