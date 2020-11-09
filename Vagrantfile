@@ -77,7 +77,7 @@ Vagrant.configure(2) do |config|
     sed -i -e "s/DATA_PATH_HOST=~\\/\\.laradock\\/data/DATA_PATH_HOST=\\/opt\\/app\\/data/" .env
 
     # Image & Container build 超絶長い1～2時間位
-    docker-compose up -d nginx postgres-postgis
+    docker-compose up -d apache2 mysql
 	echo "★★★コンテナビルド完了"
 
 	# Laravel Install
@@ -94,7 +94,7 @@ Vagrant.configure(2) do |config|
     sed -i -e "/^DB_/d" .env
     cat <<EOF >> .env
 DB_CONNECTION=pgsql
-DB_HOST=postgres-postgis
+DB_HOST=mysql
 DB_PORT=5432
 DB_DATABASE=default
 DB_USERNAME=default
@@ -105,7 +105,7 @@ EOF
     cd ../laradock
 
     # Recreate Container（これ重要）
-    docker-compose up -d nginx postgres-postgis
+    docker-compose up -d apache2 mysql
 
     # laravel-Admin Install after pg migrating & seeding
     docker-compose exec -T workspace sh -c "composer require encore/laravel-admin:2.0.0-beta1"
@@ -127,7 +127,7 @@ EOF
     sudo su -
     cd #{GUEST_APP_DIR}/laradock
     pwd
-    docker-compose up --no-recreate -d nginx postgres-postgis
+    docker-compose up --no-recreate -d apache2 mysql
     docker-compose ps
 	echo ""
 	echo "Laravel開発環境を起動しました！"
