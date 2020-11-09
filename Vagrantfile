@@ -74,7 +74,11 @@ Vagrant.configure(2) do |config|
     cd laradock
     cp env-example .env
 
+    #データパスを外だしに変更
     sed -i -e "s/DATA_PATH_HOST=~\\/\\.laradock\\/data/DATA_PATH_HOST=\\/opt\\/app\\/data/" .env
+
+    #mysql8.0は失敗するので5.7に変更
+    sed -i -e "s/MYSQL_VERSION=latest/MYSQL_VERSION=5.7/" .env
 
     # Image & Container build 超絶長い1～2時間位
     docker-compose up -d apache2 mysql
@@ -85,6 +89,7 @@ Vagrant.configure(2) do |config|
 	echo "★★★Laravelインスコ完了"
 
     sed -i -e "s/APP_CODE_PATH_HOST=\\.\\.\\//APP_CODE_PATH_HOST=#{GUEST_APP_DIR2}\\/#{APP_NAME}/" .env
+
 
     # アプリ側に移動
     cd ../#{APP_NAME}
