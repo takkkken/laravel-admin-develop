@@ -77,8 +77,8 @@ Vagrant.configure(2) do |config|
     #データパスを外だしに変更
     sed -i -e "s/DATA_PATH_HOST=~\\/\\.laradock\\/data/DATA_PATH_HOST=\\/opt\\/app\\/data/" .env
 
-    #mysql8.0は失敗するので5.7に変更
-    sed -i -e "s/MYSQL_VERSION=latest/MYSQL_VERSION=5.7/" .env
+    ##mysql5.7に変更
+    ##sed -i -e "s/MYSQL_VERSION=latest/MYSQL_VERSION=5.7/" .env
 
     # Image & Container build 超絶長い1～2時間位
     docker-compose up -d apache2 mysql
@@ -95,16 +95,6 @@ Vagrant.configure(2) do |config|
     cd ../#{APP_NAME}
     # ストレージのパーミッションを設定
     chmod 777 -R storage
-    # PostgreSQLの接続設定（デフォはMySQLの為MySQLの設定は削除）
-    sed -i -e "/^DB_/d" .env
-    cat <<EOF >> .env
-DB_CONNECTION=pgsql
-DB_HOST=mysql
-DB_PORT=5432
-DB_DATABASE=default
-DB_USERNAME=default
-DB_PASSWORD=secret
-EOF
 
     # laradock側に移動
     cd ../laradock
