@@ -10,7 +10,7 @@ HOST_APP_DIR = "./app"
 GUEST_APP_DIR = "/opt/app"
 GUEST_MEM = 4096 # 単位：MB
 GUEST_CPU = 4
-APP_NAME = "sample_app"
+APP_NAME = "kirokuman"
 # ---------------------------------------------------------
 
 GUEST_APP_DIR2 = GUEST_APP_DIR.gsub(/\//,'\\/')
@@ -77,16 +77,16 @@ Vagrant.configure(2) do |config|
     #データパスを外だしに変更
     sed -i -e "s/DATA_PATH_HOST=~\\/\\.laradock\\/data/DATA_PATH_HOST=\\/opt\\/app\\/data/" .env
 
-    ##mysql5.7に変更
-    ##sed -i -e "s/MYSQL_VERSION=latest/MYSQL_VERSION=5.7/" .env
+    #mysql5.7に変更
+    sed -i -e "s/MYSQL_VERSION=latest/MYSQL_VERSION=5.7/" .env
 
     # Image & Container build 超絶長い1～2時間位
     docker-compose up -d apache2 mysql
-	echo "★★★コンテナビルド完了"
+    echo "★★★コンテナビルド完了"
 
-	# Laravel Install
+    # Laravel Install
     docker-compose exec -T workspace sh -c "composer create-project --prefer-dist laravel/laravel #{APP_NAME}"
-	echo "★★★Laravelインスコ完了"
+    echo "★★★Laravelインスコ完了"
 
     sed -i -e "s/APP_CODE_PATH_HOST=\\.\\.\\//APP_CODE_PATH_HOST=#{GUEST_APP_DIR2}\\/#{APP_NAME}/" .env
 
@@ -95,6 +95,16 @@ Vagrant.configure(2) do |config|
     cd ../#{APP_NAME}
     # ストレージのパーミッションを設定
     chmod 777 -R storage
+    # PostgreSQLの接続設定（デフォはMySQLの為MySQLの設定は削除）
+    sed -i -e "/^DB_/d" .env
+    cat <<EOF >> .env
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=default
+DB_USERNAME=default
+DB_PASSWORD=secret
+EOF
 
     # laradock側に移動
     cd ../laradock
@@ -109,7 +119,7 @@ Vagrant.configure(2) do |config|
     docker-compose exec -T workspace sh -c "php artisan migrate:refresh --seed"
     docker-compose exec -T workspace sh -c "php artisan admin:install"
 
-    gpasswd -a vagrant docker
+    sudo gpasswd -a vagrant docker
 
     echo ""
     echo "Laravel開発環境の構築が完了しました！"
